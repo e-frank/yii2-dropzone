@@ -1,0 +1,16 @@
+{
+    "name":        "e-frank/yii2-dropzone",
+    "description": "yii2 Asset for dropzone.js",
+    "keywords":    ["yii2", "dropzone", "dropzone.js"],
+    "type":        "yii2-extension",
+    "license":     "BSD-3-Clause",
+    "authors": [
+        {
+            "name":     "Elmar Frank",
+            "homepage": "http://yii.efrank.at/extension/dropzone"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "x1\\dropzone\\": "" }
+    }
+}
