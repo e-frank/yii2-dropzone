@@ -1,10 +1,33 @@
+.dropzone .dz-preview .dz-image {
+  border-radius: 0 !important;
+}
+
+.dropzone:after {
+  content:         "\f0ee"; 
+  font-family:     FontAwesome;
+  font-style:      normal;
+  font-weight:     normal;
+  text-decoration: inherit;
+  position:        absolute;
+  font-size:       200px;
+  top:             50%;
+  left:            50%;
+  margin:          -140px 0 0 -100px;
+  z-index:         1;
+  opacity:         0.1;
+}
+
 .dropzone, .dropzone * {
   box-sizing: border-box;
 }
 
 .dropzone {
-  position: relative; 
+  position:   relative; 
+  background: #eee;
+  border:     inherit;
+  min-height: 200px;
 }
+
 .dropzone .dz-preview {
   position: relative;
   display:  inline-block;
@@ -41,4 +64,17 @@
   height:      58px;
   left:        50%;
   margin-left: -27px;
+}
+
+
+.dropzone.dz-drag-hover
+{
+  border-style: none !important;
+}
+
+.dropzone .progress {
+  margin-top:   -20px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  height:       5px;
 }

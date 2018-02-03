@@ -1,5 +1,10 @@
 <div id="<?= $id ?>" class="well x1-dropzone dropzone">
-    <h1 class="text-center"><i class="fa fa-cloud-upload"></i></h1>
+
+
+    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" style="opacity: 0">
+        <div class="progress-bar progress-bar-success" style="width:100%;" data-dz-uploadprogress></div>
+    </div>
+
 
 
     <p class="actions" style="display: none">
@@ -17,15 +22,6 @@
             <span>Cancel upload</span>
         </button>
 
-    </p>
-
-
-    <p>
-        <span class="fileupload-process">
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
-            </div>
-        </span>
     </p>
 
 

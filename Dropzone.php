@@ -23,9 +23,10 @@ class Dropzone extends \yii\widgets\InputWidget {
 		'params'             => ['foo' => 'bar'],
 	];
 
-	public $config = [];
-	public $url    = null;
-	public $isBody = false;
+	public $config   = [];
+	public $url      = null;
+	public $isBody   = false;
+	public $multiple = true;
 
 	public function init() {
 
@@ -39,6 +40,9 @@ class Dropzone extends \yii\widgets\InputWidget {
 			$this->config['url'] = $this->url;
 		}
 
+		$this->config = ArrayHelper::merge($this->config, ['params' => [
+			Yii::$app->request->csrfParam => Yii::$app->request->csrfToken
+		]]);
 
 	}
 
@@ -54,15 +58,13 @@ x1 = $.extend({}, x1, { dropzone: {}});
 
 Dropzone.autoDiscover = false;
 
-// x1 dropzone loader
+// x1 jquery dropzone loader
 (function( $ ) {
  
     $.fn.dropzone = function( options ) {
  
         options = $.extend({
-            color:           "#556b2f",
-            backgroundColor: "white",
-            config:          {}
+            config: {}
         }, options);
 
 		options.config = $.extend({
@@ -71,26 +73,26 @@ Dropzone.autoDiscover = false;
 
  
         this.each(function(index, item) {
-            // var self = $(this);
-            console.log('self', options.config);
 
 			x1.dropzone[options.id] = new Dropzone(item, options.config);
 			var myDropzone          = x1.dropzone[options.id];
 
 			myDropzone.on("totaluploadprogress", function(progress) {
-				console.log('progress', progress);
-				// document.querySelector("#" + options.id + " .total-progress .progress-bar").style.width = progress + "%%";
+				document.querySelector("#" + options.id + " .progress").style.opacity = "1";
+				// document.querySelector("#" + options.id + " .progress-bar").style.width = progress + "%%";
 			});
 
 			myDropzone.on("sending", function(file) {
-			  document.querySelector("#" + options.id + " .progress").style.opacity = "1";
-			  // // And disable the start button
-			  // file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+				document.querySelector("#" + options.id + " .progress").style.opacity = "1";
+				if (options.multiple === true) {
+					myDropzone.removeAllFiles();
+				}
+				// // And disable the start button
+				// file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
 			});
 
-			myDropzone.on("queuecomplete", function(progress) {
-				console.log('progress', progress);
-			  document.querySelector("#" + options.id + " .progress").style.opacity = "0";
+			myDropzone.on("queuecomplete", function() {
+				document.querySelector("#" + options.id + " .progress").style.opacity = "0";
 			});
 
         });
@@ -109,7 +111,6 @@ Dropzone.autoDiscover = false;
 	// // });
 
 
-
 	// // // Setup the buttons for all transfers
 	// // // The "add files" button doesn't need to be setup because the config
 	// // // `clickable` has already been specified.
@@ -121,7 +122,6 @@ Dropzone.autoDiscover = false;
 	// // };
 
 
-
 })("idOfDropzone")
 
 EOD;
@@ -130,8 +130,9 @@ EOD;
 	
 		$view->registerJs($js, $view::POS_READY);
 		$view->registerJs(sprintf("$('%s').dropzone(%s);", ($this->isBody) ? 'document.body' : '#' . $this->id, Json::encode([
-			'id'     => $this->id,
-			'config' => (object)$this->config,
+			'id'       => $this->id,
+			'multiple' => $this->multiple,
+			'config'   => (object)$this->config,
 		])), $view::POS_READY);
 
 
